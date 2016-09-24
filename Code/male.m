@@ -81,9 +81,9 @@ for l = 1:T
     
     if dist <= threshold 
 %         g = sprintf('%d',l);
-        fprintf('test case %d %d\n',l,dist);
+        fprintf('test case %d is male\n',l,);
     else
 %         g = sprintf('%d',l);
-        fprintf('test case %d %d\n',l,dist);    
+        fprintf('test case %d is female\n',l);    
     end
 end
