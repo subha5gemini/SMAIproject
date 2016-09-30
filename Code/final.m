@@ -1,4 +1,4 @@
-% image pre-processing. 
+    % image pre-processing. 
 
 M = 150; % number of male train images M
 F = 150; % number of female train images F
@@ -80,7 +80,7 @@ t = zeros(NX, NY, T);
 ts = zeros(N2, T);
 dist = zeros(1,T);
 
-threshold = 5e+4;
+threshold = 5.5e+9;
 for l = 1:T
     filename = sprintf('../Test/t%d.jpg', l);
     t(:,:,T) = im2double(rgb2gray(imread(filename)));
@@ -90,7 +90,7 @@ for l = 1:T
     t(:,:,T) = t(:,:,T) - i_mean ;
     ts(:,T) = reshape( t(:,:,T), [N2,1]);
     dist = (ts(:,T)' * U)*(ts(:,T)' * U)' ;
-    dist = sqrt(dist);
+%     dist = sqrt(dist);
     
     if dist <= threshold 
 %         g = sprintf('%d',l);
