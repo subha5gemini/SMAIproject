@@ -1,0 +1,7 @@
+The train data is Yale-Faces-Dataset-B
+The train data is .pgm images which are poratbale greyscale images.
+They vary in :
+	lightining ( left, right, center)
+	glasses ( glasses, noglasses)
+	expression ( normal, happy, sad, sleepy, surprised, sleepy, wink)
+All images are of same pixel dimension.
