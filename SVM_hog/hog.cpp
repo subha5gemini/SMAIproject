@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
 	ofstream myfile;
-	myfile.open ("/home/saikrishna/Appidi_SMAI/test_male.txt");
+	myfile.open ("/home/abhi/SMAI/test_male.txt");
 	unsigned int j;
 	for(j=1;j<350;j++)
 	{
@@ -20,7 +20,7 @@ int main()
 		stringstream ss;
 		ss<<j;
 //		cout << j << "\n";
-		string filename ="/home/saikrishna/Appidi_SMAI/UNRGenderDB/test/Male/"+ss.str()+ ".tif";
+		string filename ="/home/abhi/SMAI/UNRGenderDB/test/Male/"+ss.str()+ ".tif";
 			
 		ss.str("");
 		cout << filename << "\n";
@@ -52,7 +52,7 @@ int main()
 			use << j;
 			string number = use.str();
 			string type = ".jpg";
-			imwrite("/home/saikrishna/TrafficLight/naya2/"+number+type,img);
+			imwrite("/home/abhi/TrafficLight/naya2/"+number+type,img);
 	cout << descriptorsValues.size() << "\n";
 		myfile << "0 ";  
 		for (unsigned int i=0; i<descriptorsValues.size(); i++)
