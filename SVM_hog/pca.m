@@ -1,5 +1,5 @@
 % train data directory
-chdir('/home/krish/sem4.1/SMAI/Appidi_SMAI/UNRGenderDB/train');
+chdir('/home/abhi/sem3.1/SMAI/Appidi_SMAI/UNRGenderDB/train');
 list = dir ;
 
 % constants
