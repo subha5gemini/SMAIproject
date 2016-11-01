@@ -33,7 +33,7 @@ int main()
 			return -1;
 		}    
 
-		resize(img_raw, img_raw, Size(12,27));
+		resize(img_raw, img_raw, Size(12,12));
 		//GaussianBlur( img_raw, img_raw, Size( 7, 7 ), 1, 1 );
 		Mat img;
 		cvtColor(img_raw, img, CV_BGR2HSV); 
