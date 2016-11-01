@@ -1,10 +1,12 @@
+pkg load statistics
 %train female data directory
-chdir('C:\Users\Subha Karanam\Documents\3-1\SMAI\Project\KNN\train\Female');
+chdir('../UNRDatabase/train/Female');
 list = dir;  
 
-M = 317; %no. of samples
+M = 317; %no. of samples, same for both classes
 h = 20;  %size of the image
 w = 16;
+n_clusters = 10;
 
 D = h*w;
 
@@ -13,13 +15,13 @@ data1 = zeros (M,D);
 %load female train data
 for k = 1:M
     G = imread(list(k+2).name);
-    G = reshape(G, [1 D]);
+    G = reshape(G, [1,D]);
     data1(k,:) = G;
 end
 
-[idx1,C1] = kmeans(data1, 10);
+[idx1,C1] = kmeans(data1, n_clusters);
 
-chdir('C:\Users\Subha Karanam\Documents\3-1\SMAI\Project\KNN\train\Male');
+chdir('../Male');
 list = dir;  %train male data directory
 
 data2 = zeros(M,D);
@@ -27,11 +29,11 @@ data2 = zeros(M,D);
 %load male train data
 for k = 1:M
     G = imread(list(k+2).name);
-    G = reshape(G, [1 D]);
+    G = reshape(G, [1,D]);
     data2(k,:) = G;
 end
 
-[idx2,C2] = kmeans(data2, 10);
+[idx2,C2] = kmeans(data2, n_clusters);
 
 X = vertcat(C1,C2);
 
@@ -46,17 +48,23 @@ Y = [1;1;1;1;1;1;1;1;1;1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1];
 
 %testing
 
-chdir('C:\Users\Subha Karanam\Documents\3-1\SMAI\Project\KNN\test');
+chdir('../../test/unlabled');
 list=dir;
-N = 344;
+N = 28;
 Final = zeros(1,N);
+
+function [smallestNElements smallestNIdx] = getNElements(A, n)
+     [ASorted AIdx] = sort(A);
+     smallestNElements = ASorted(1:n);
+     smallestNIdx = AIdx(1:n);
+end
 
 for k = 1:N
     L = imread(list(k+2).name);
-    L = reshape(L, [1 D]);
-    Wtemp = zeros(20,320);
-    for i=1:20
-        Wtemp(i,:)=L(1,:);
+    L = reshape(L, [1,D]);
+    Wtemp = zeros(20,D);
+    for i = 1:20
+        Wtemp(i,:) = L(1,:);
     end
     W = X - Wtemp;
     W = W*W';
@@ -66,7 +74,7 @@ for k = 1:N
     end
     T = U;
     A = zeros(1,5);
-    [Usort Uidx] = getNElements(U,5);
+    [Usort,Uidx] = getNElements(U,5);
     for i=1:5
         Final(k)=Final(k)+Y(Uidx(i));
     end
