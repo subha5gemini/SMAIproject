@@ -91,7 +91,7 @@ end
 
 for k = 1:N
     L = imread(list(k+2).name);
-    L = L * eigen_faces; % project onto eigen faces
+    L = double(L) * eigen_faces; % project onto eigen faces
     L = reshape(L, [1,D]); 
     Wtemp = zeros(10,D);
     for i = 1:10
