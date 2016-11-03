@@ -10,7 +10,7 @@ n_faces = 50;
 n_lighting_variation = 3;
 
 D = h*w;
-data = zeros(2*M,D);
+data = zeros(2*M,D); % twice because equal number of male and female images
 
 % load the train data
 for k = 1:M
@@ -36,13 +36,12 @@ mean_face = mean(data);
 imshow(mean_face);
 centered_data = data - mean_face;
 
-% C = cov(centered_data);
 [V, Lambda] = eig( centered_data * centered_data' );
 eigen_faces = centered_data' * V * (Lambda^(-0.5));
 
 % use hueristics, the maximum variation is due to lightning, so we drop the 
 % first three eigen vectors. We will take the next 50 eigenfaces as the basis.
-eigen_faces = eigen_faces(:,[M - n_faces - n_lighting_variation:M - n_lighting_variation]);
+eigen_faces = eigen_faces(:,[M - n_faces - n_lighting_variation:M - n_lighting_variation - 1]);
 
 for k = 1:n_faces
   a = reshape(eigen_faces(:,k),[h,w]);
@@ -56,7 +55,7 @@ end
 
 % now use KNN, GMM, etc.. partitioning methods to classify each test image.
 
-data = data * eigen_faces;
+centered_data = centered_data * eigen_faces;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,11 +72,11 @@ data = data * eigen_faces;
 pkg load statistics
 
 n_clusters = 10;
-[idx,C] = kmeans(data, n_clusters);
+[idx,C] = kmeans(centered_data, n_clusters);
 Y = [1;1;1;1;1;1;1;1;1;1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1];
 
 N = 28;
-D = 51; % new reduced dimension :) 
+D = 50; % new reduced dimension :) 
 Final = zeros(1,N);
 
 chdir('../../test/unlabled');
@@ -91,8 +90,10 @@ end
 
 for k = 1:N
     L = imread(list(k+2).name);
+    L = reshape(L,[1,320]);
+    L = L - mean_face; % center the test data
     L = double(L) * eigen_faces; % project onto eigen faces
-    L = reshape(L, [1,D]); 
+     
     Wtemp = zeros(10,D);
     for i = 1:10
         Wtemp(i,:) = L(1,:);
